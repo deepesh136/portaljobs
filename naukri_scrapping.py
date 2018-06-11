@@ -41,7 +41,7 @@ def browse_all_companies_list(companies_urls= []):
 
 
 	except Exception as e:
-		return str(e)
+		return browse_all_companies_list()
 
 	finally:
 		time.sleep(20)
@@ -61,7 +61,7 @@ def browse_company_names(companies_urls, company_names = [], company_links = [])
 							company_names.append(link.get_text())
 							company_links.append(link.get('href'))
 		except:
-			return "exception occured"
+			return browse_company_names()
 	return jobs_list_by_companies(company_links)
 
 #entering companie's naukri urls for job list
@@ -82,7 +82,7 @@ def jobs_list_by_companies(company_links, company_jobs_urls= [], job_title= [], 
 			else:
 				return jobs_list_by_companies()
 		except Exception as e2:
-			return str(e2)
+			return jobs_list_by_companies()
 	return job_title, job_location, jobs_details(company_jobs_urls)
 	
 
@@ -106,7 +106,7 @@ def jobs_details(company_jobs_urls, more_info=[], skills= []):
 			else:
 				return jobs_details
 		except Exception as e3:
-			return str(e3)
+			return jobs_deatisl()
 	return description, more_info, skills
 				
 		
