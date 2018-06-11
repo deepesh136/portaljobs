@@ -66,7 +66,7 @@ def browse_company_names(companies_urls, company_names = [], company_links = [])
 
 #entering companie's naukri urls for job list
 
-def jobs_list_by_companies(company_links, company_jobs_urls= [], job_title= [], job_location= []):
+def jobs_list_by_companies(company_links, company_jobs_urls= [], job_title= [], job_location= [], job_experience= []):
 	for job_search in company_links:
 		try:
 			page_company = requests.get(job_search, headers= USER_AGENT, timeout=10)
@@ -79,6 +79,8 @@ def jobs_list_by_companies(company_links, company_jobs_urls= [], job_title= [], 
 							job_title.append(job_opening.get('title'))
 						for span in a_joblist.find_all('span', attrs= {"class":"loc"}):
 							job_location.append(span.get_text())
+						for span2 in a_joblist.find_all('span', attrs= {"class":"exp"}):
+							job_experience.append(span2.get_text())
 			else:
 				return jobs_list_by_companies()
 		except Exception as e2:
@@ -88,7 +90,7 @@ def jobs_list_by_companies(company_links, company_jobs_urls= [], job_title= [], 
 
 #opening jobs list and extracting details of job
 
-def jobs_details(company_jobs_urls, more_info=[], skills= []):
+def jobs_details(company_jobs_urls, salary=[], skills= [], industry= []):
 	for jobs_by_companies in company_jobs_urls:
 		try:
 			page_jobs = requests.get(jobs_by_companies, headers= USER_AGENT, timeout=10)
@@ -99,15 +101,18 @@ def jobs_details(company_jobs_urls, more_info=[], skills= []):
 				description= ul.get_text()
 				div2_description= div_description.find('div', attrs= {"class":"jDisc mt20"})
 				for p in div2_description.find_all('p'):
-					more_info.append(p.get_text())
+					for span_salary in p.find_all('span', attrs= {"class":"salary"}):
+						salary.append(span_salary.get_text())
+					for span_industry in p.find_all('span', attrs={"itemprop":"industry"}):
+						industry.append(span_industry.get_text())
 				div3_skills= div_description.find('div', attrs= {"class":"ksTags"})
 				for a_description in div3_skills.find_all('a'):
 					skills.append(a_description.get_text())
 			else:
 				return jobs_details
 		except Exception as e3:
-			return jobs_deatisl()
-	return description, more_info, skills
+			return jobs_details()
+	return description, salary, skills, industry
 				
 		
 browse_all_companies_list()
