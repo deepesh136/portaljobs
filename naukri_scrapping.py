@@ -85,7 +85,7 @@ def jobs_list_by_companies(company_links, company_jobs_urls= [], job_title= [], 
 				return jobs_list_by_companies()
 		except Exception as e2:
 			return jobs_list_by_companies()
-	return job_title, job_location, jobs_details(company_jobs_urls)
+	return job_title,job_experience, job_location, jobs_details(company_jobs_urls)
 	
 
 #opening jobs list and extracting details of job
