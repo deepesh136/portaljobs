@@ -116,4 +116,3 @@ def jobs_details(company_jobs_urls, salary=[], skills= [], industry= []):
 				
 		
 browse_all_companies_list()
-
